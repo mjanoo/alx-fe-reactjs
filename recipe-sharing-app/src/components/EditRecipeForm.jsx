@@ -1,35 +1,24 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import useRecipeStore from "../store/recipeStore";
+import { create } from "zustand";
 
-const EditRecipeForm = ({ recipe }) => {
-  const updateRecipe = useRecipeStore((s) => s.updateRecipe);
-  const [title, setTitle] = useState(recipe.title);
-  const [description, setDescription] = useState(recipe.description);
-  const navigate = useNavigate();
+const useRecipeStore = create((set) => ({
+  recipes: [],
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    updateRecipe({ ...recipe, title, description });
-    navigate(`/recipes/${recipe.id}`);
-  };
+  addRecipe: (recipe) =>
+    set((state) => ({
+      recipes: [...state.recipes, recipe],
+    })),
 
-  return (
-    <form onSubmit={handleSubmit} style={{ marginTop: "20px" }}>
-      <h3>Edit Recipe</h3>
-      <input
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Title"
-      />
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="Description"
-      />
-      <button type="submit">Save Changes</button>
-    </form>
-  );
-};
+  updateRecipe: (updatedRecipe) =>
+    set((state) => ({
+      recipes: state.recipes.map((r) =>
+        r.id === updatedRecipe.id ? { ...r, ...updatedRecipe } : r
+      ),
+    })),
 
-export default EditRecipeForm;
+  deleteRecipe: (id) =>
+    set((state) => ({
+      recipes: state.recipes.filter((r) => r.id !== id),
+    })),
+}));
+
+export default useRecipeStore;
