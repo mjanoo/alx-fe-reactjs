@@ -36,6 +36,14 @@ const useRecipeStore = create((set, get) => ({
     set({ recipes: updated, filteredRecipes: updated });
   },
 
+  // --- Update recipe by ID ---
+  updateRecipe: (id, updatedFields) => {
+    const updated = get().recipes.map((recipe) =>
+      recipe.id === id ? { ...recipe, ...updatedFields } : recipe
+    );
+    set({ recipes: updated, filteredRecipes: updated });
+  },
+
   // --- NEW FAVORITES FEATURES ---
 
   // Add to favorites
