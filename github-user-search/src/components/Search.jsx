@@ -1,24 +1,47 @@
-import React, { useState } from 'react'
+import { useState } from "react";
+import { fetchUserData } from "../services/githubService";
+import UserCard from "./UserCard";
 
-export default function Search({ onSearch }) {
-  const [q, setQ] = useState('')
+function Search() {
+  const [username, setUsername] = useState("");
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const submit = (e) => {
-    e.preventDefault()
-    const trimmed = q.trim()
-    if (!trimmed) return
-    onSearch(trimmed)
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setUserData(null);
+
+    try {
+      const data = await fetchUserData(username);
+      setUserData(data);
+    } catch (err) {
+      setError("Looks like we can’t find the user");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <form onSubmit={submit} style={{ display: 'flex', gap: 8 }}>
-      <input
-        value={q}
-        onChange={(e) => setQ(e.target.value)}
-        placeholder='Search GitHub users (e.g. "octocat")'
-        style={{ flex: 1, padding: '8px 10px', fontSize: 16 }}
-      />
-      <button type="submit" style={{ padding: '8px 12px' }}>Search</button>
-    </form>
-  )
+    <div>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Enter GitHub username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <button type="submit">Search</button>
+      </form>
+
+      {/* Conditional Rendering */}
+      {loading && <p>Loading...</p>}
+      {error && <p>{error}</p>}
+      {userData && <UserCard user={userData} />}
+    </div>
+  );
 }
+
+export default Search;
