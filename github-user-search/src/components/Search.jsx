@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { fetchUserData } from "../services/githubService";
 
-
 function Search() {
   const [username, setUsername] = useState("");
   const [location, setLocation] = useState("");
@@ -17,8 +16,8 @@ function Search() {
     setUsers([]);
 
     try {
-      const data = await fetchUserData(username, location, minRepos);
-
+      const data = await fetchUserData(username, location, repos);
+      if (!data || data.length === 0) {
         setError("Looks like we can’t find the user");
       } else {
         setUsers(data);
