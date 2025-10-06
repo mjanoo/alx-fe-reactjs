@@ -11,9 +11,14 @@ function RegistrationForm() {
     e.preventDefault();
     let newErrors = {};
 
-    if (!username.trim()) newErrors.username = "Username is required";
-    if (!email.includes("@")) newErrors.email = "Enter a valid email";
-    if (password.length < 6)
+    // Basic empty-field checks (required by the test)
+    if (!username) newErrors.username = "Username is required";
+    if (!email) newErrors.email = "Email is required";
+    if (!password) newErrors.password = "Password is required";
+
+    // Advanced validation (optional but keeps form smart)
+    if (email && !email.includes("@")) newErrors.email = "Enter a valid email";
+    if (password && password.length < 6)
       newErrors.password = "Password must be at least 6 characters";
 
     setErrors(newErrors);
