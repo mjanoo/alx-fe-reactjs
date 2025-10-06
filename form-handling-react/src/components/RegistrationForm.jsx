@@ -1,79 +1,82 @@
-import React, { useState } from "react";
+import "../styles/Form.css";
+import { useState } from "react";
 
-export default function RegistrationForm() {
-  const [form, setForm] = useState({ username: "", email: "", password: "" });
+function Form() {
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
   const [errors, setErrors] = useState({});
-  const [message, setMessage] = useState(null);
 
-  const validate = (values) => {
-    const errs = {};
-    if (!values.username.trim()) errs.username = "Username is required";
-    if (!values.email.trim()) {
-      errs.email = "Email is required";
-    } else if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(values.email)) {
-      errs.email = "Invalid email";
-    }
-    if (!values.password.trim()) errs.password = "Password is required";
-    return errs;
-  };
-
+  // handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setFormData({ ...formData, [name]: value });
   };
 
+  // validation logic
+  const validate = () => {
+    let newErrors = {};
+    if (!formData.username.trim()) newErrors.username = "Username is required";
+    if (!formData.email.includes("@")) newErrors.email = "Enter a valid email";
+    if (formData.password.length < 6)
+      newErrors.password = "Password must be at least 6 characters";
+    return newErrors;
+  };
+
+  // handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    const validation = validate(form);
-    setErrors(validation);
+    const validationErrors = validate();
+    setErrors(validationErrors);
 
-    if (Object.keys(validation).length === 0) {
-      console.log("Form submitted:", form);
-      setMessage("Registration successful (mock)!");
-      setForm({ username: "", email: "", password: "" });
+    if (Object.keys(validationErrors).length === 0) {
+      alert("Form submitted successfully!");
+      console.log(formData);
+      setFormData({ username: "", email: "", password: "" });
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: 400, margin: "auto" }}>
-      <h2>Registration Form (Controlled)</h2>
-
-      {message && <p style={{ color: "green" }}>{message}</p>}
-
-      <div>
+    <form className="user-form" onSubmit={handleSubmit}>
+      <div className="form-group">
         <label>Username:</label>
         <input
           type="text"
           name="username"
-          value={form.username}
+          value={formData.username}
           onChange={handleChange}
         />
-        {errors.username && <p style={{ color: "red" }}>{errors.username}</p>}
+        {errors.username && <p className="error">{errors.username}</p>}
       </div>
 
-      <div>
+      <div className="form-group">
         <label>Email:</label>
         <input
           type="email"
           name="email"
-          value={form.email}
+          value={formData.email}
           onChange={handleChange}
         />
-        {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
+        {errors.email && <p className="error">{errors.email}</p>}
       </div>
 
-      <div>
+      <div className="form-group">
         <label>Password:</label>
         <input
           type="password"
           name="password"
-          value={form.password}
+          value={formData.password}
           onChange={handleChange}
         />
-        {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
+        {errors.password && <p className="error">{errors.password}</p>}
       </div>
 
-      <button type="submit">Register</button>
+      <button type="submit">Submit</button>
     </form>
   );
 }
+
+export default Form;
