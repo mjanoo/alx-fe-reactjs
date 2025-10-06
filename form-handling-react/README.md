@@ -1,16 +1,27 @@
-# React + Vite
+# Form Handling in React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project demonstrates how to manage form data in React using **controlled components** and then transition to using **Formik** for more advanced form handling and validation.
 
-Currently, two official plugins are available:
+## 🚀 Features
+- User Registration Form built with controlled components.
+- Validation using React’s `useState`.
+- Refactored version using **Formik** + **Yup**.
+- Mock API integration using [JSONPlaceholder](https://jsonplaceholder.typicode.com/posts).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🧩 Steps Implemented
+1. Set up React app with Vite.
+2. Created `RegistrationForm` using controlled components.
+3. Added validation to prevent empty or invalid fields.
+4. Integrated Formik and Yup for advanced handling (`FormikForm.jsx`).
+5. Used a mock API to simulate user registration.
 
-## React Compiler
+## 🧠 Technologies Used
+- React (Vite)
+- Formik
+- Yup
+- HTML & CSS
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🏃‍♀️ How to Run
+```bash
+npm install
+npm run dev
