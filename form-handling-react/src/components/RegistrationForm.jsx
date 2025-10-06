@@ -1,41 +1,29 @@
 import "../styles/Form.css";
 import { useState } from "react";
 
-function Form() {
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-
+function RegistrationForm() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
-  // handle input change
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  // validation logic
-  const validate = () => {
-    let newErrors = {};
-    if (!formData.username.trim()) newErrors.username = "Username is required";
-    if (!formData.email.includes("@")) newErrors.email = "Enter a valid email";
-    if (formData.password.length < 6)
-      newErrors.password = "Password must be at least 6 characters";
-    return newErrors;
-  };
-
-  // handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    const validationErrors = validate();
-    setErrors(validationErrors);
+    let newErrors = {};
 
-    if (Object.keys(validationErrors).length === 0) {
+    if (!username.trim()) newErrors.username = "Username is required";
+    if (!email.includes("@")) newErrors.email = "Enter a valid email";
+    if (password.length < 6)
+      newErrors.password = "Password must be at least 6 characters";
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
       alert("Form submitted successfully!");
-      console.log(formData);
-      setFormData({ username: "", email: "", password: "" });
+      console.log({ username, email, password });
+      setUsername("");
+      setEmail("");
+      setPassword("");
     }
   };
 
@@ -46,8 +34,8 @@ function Form() {
         <input
           type="text"
           name="username"
-          value={formData.username}
-          onChange={handleChange}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
         {errors.username && <p className="error">{errors.username}</p>}
       </div>
@@ -57,8 +45,8 @@ function Form() {
         <input
           type="email"
           name="email"
-          value={formData.email}
-          onChange={handleChange}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         {errors.email && <p className="error">{errors.email}</p>}
       </div>
@@ -68,8 +56,8 @@ function Form() {
         <input
           type="password"
           name="password"
-          value={formData.password}
-          onChange={handleChange}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
         {errors.password && <p className="error">{errors.password}</p>}
       </div>
@@ -79,4 +67,6 @@ function Form() {
   );
 }
 
-export default Form;
+export default RegistrationForm;
+
+

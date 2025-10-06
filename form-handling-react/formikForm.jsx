@@ -20,28 +20,28 @@ function FormikForm() {
   });
 
   const handleSubmit = async (values, { resetForm, setSubmitting }) => {
-  try {
-    const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
+    try {
+      const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
 
-    if (response.ok) {
-      const data = await response.json();
-      console.log("User registered:", data);
-      alert("User registered successfully (mock API)!");
-      resetForm();
-    } else {
-      alert("Something went wrong. Please try again.");
+      if (response.ok) {
+        const data = await response.json();
+        console.log("User registered:", data);
+        alert("User registered successfully (mock API)!");
+        resetForm();
+      } else {
+        alert("Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Network error, please try again later.");
+    } finally {
+      setSubmitting(false);
     }
-  } catch (error) {
-    console.error("Error submitting form:", error);
-    alert("Network error, please try again later.");
-  } finally {
-    setSubmitting(false);
-  }
-};
+  };
 
   return (
     <div className="user-form">
