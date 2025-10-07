@@ -19,8 +19,8 @@ function App() {
           element={isAuthenticated ? <Profile /> : <Navigate to="/" />}
         />
 
-        {/* Dynamic Route */}
-        <Route path="/post/:id" element={<BlogPost />} />
+        {/* ✅ Dynamic Route */}
+        <Route path="/blog/:id" element={<BlogPost />} />
       </Routes>
     </Router>
   );
