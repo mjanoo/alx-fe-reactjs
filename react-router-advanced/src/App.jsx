@@ -1,8 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Profile from "./components/Profile";
 import BlogPost from "./pages/BlogPost";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const isAuthenticated = false; // simulate authentication
@@ -13,13 +14,17 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
 
-        {/* Protected Route */}
+        {/* ✅ Protected Route */}
         <Route
           path="/profile/*"
-          element={isAuthenticated ? <Profile /> : <Navigate to="/" />}
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Profile />
+            </ProtectedRoute>
+          }
         />
 
-        {/* ✅ Dynamic Route */}
+        {/* Dynamic Route */}
         <Route path="/blog/:id" element={<BlogPost />} />
       </Routes>
     </Router>
