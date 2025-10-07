@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AddTodoForm from "./AddTodoForm";
+import AddTodoForm from "./AddTodoForm.jsx"; // if in the same folder
 
 function TodoList() {
   const [todos, setTodos] = useState([
