@@ -1,13 +1,14 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 
-const fetchPosts = async () => {
-  const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return response.json();
-};
+const { data, isLoading, isError, error, refetch } = useQuery({
+  queryKey: ['posts'],
+  queryFn: fetchPosts,
+  cacheTime: 1000 * 60 * 5, // Keep cache for 5 minutes
+  staleTime: 1000 * 30, // Data considered fresh for 30 seconds
+  refetchOnWindowFocus: true, // Refetch when window refocuses
+  keepPreviousData: true, // Keep old data while fetching new
+});
 
 function PostsComponent() {
   const { data, isLoading, isError, error, refetch } = useQuery('posts', fetchPosts);
